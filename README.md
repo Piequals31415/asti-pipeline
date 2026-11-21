@@ -2,4 +2,11 @@
 
 # AsTi-Pipeline
 
-Created in [T3 Code](https://t3.codes).
+A modular MonoGame library for an **Aseprite → Tiled → MonoGame** workflow.
+
+- Sprites and animations straight from Aseprite tags
+- Swappable character parts (head, torso, legs, …)
+- Rooms: layout in Tiled, painted in Aseprite, back in Tiled as tiles
+- Small game API that loads maps and spawns entities
+
+> Status: early design. Nothing usable yet.
