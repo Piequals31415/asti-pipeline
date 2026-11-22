@@ -1,0 +1,6 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <ItemGroup>
+    <!-- Compile against MonoGame only; the game picks its own platform package. -->
+    <PackageReference Include="MonoGame.Framework.DesktopGL" PrivateAssets="All" />
+  </ItemGroup>
+</Project>
