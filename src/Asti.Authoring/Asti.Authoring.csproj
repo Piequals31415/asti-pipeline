@@ -1,0 +1,6 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <ItemGroup>
+    <ProjectReference Include="../Asti.Conventions/Asti.Conventions.csproj" />
+    <ProjectReference Include="../Asti.Tiled/Asti.Tiled.csproj" />
+  </ItemGroup>
+</Project>
