@@ -1,0 +1,5 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <ItemGroup>
+    <ProjectReference Include="../Asti.Aseprite/Asti.Aseprite.csproj" />
+  </ItemGroup>
+</Project>
