@@ -2,6 +2,8 @@
 
 # AsTi-Pipeline
 
+[![CI](https://github.com/Piequals31415/asti-pipeline/actions/workflows/ci.yml/badge.svg)](https://github.com/Piequals31415/asti-pipeline/actions/workflows/ci.yml)
+
 A modular MonoGame library for an **Aseprite → Tiled → MonoGame** workflow.
 
 - Sprites and animations straight from Aseprite tags
