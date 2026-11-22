@@ -9,4 +9,4 @@ A modular MonoGame library for an **Aseprite → Tiled → MonoGame** workflow.
 - Rooms: layout in Tiled, painted in Aseprite, back in Tiled as tiles
 - Small game API that loads maps and spawns entities
 
-> Status: early design. Nothing usable yet.
+[![CI](https://github.com/Piequals31415/asti-pipeline/actions/workflows/ci.yml/badge.svg)](https://github.com/Piequals31415/asti-pipeline/actions/workflows/ci.yml)
