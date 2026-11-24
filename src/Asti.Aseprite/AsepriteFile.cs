@@ -6,12 +6,15 @@ namespace Asti.Aseprite;
 /// <summary>A parsed .aseprite / .ase file. Plain data, no MonoGame.</summary>
 public sealed class AsepriteFile
 {
-    internal AsepriteFile(int width, int height, AsepriteColorDepth colorDepth, IReadOnlyList<AsepriteFrame> frames)
+    internal AsepriteFile(int width, int height, AsepriteColorDepth colorDepth, IReadOnlyList<AsepriteFrame> frames,
+        IReadOnlyList<AsepriteLayer> layers, AsepritePalette palette)
     {
         Width = width;
         Height = height;
         ColorDepth = colorDepth;
         Frames = frames;
+        Layers = layers;
+        Palette = palette;
     }
 
     /// <summary>Canvas width in pixels.</summary>
@@ -23,6 +26,11 @@ public sealed class AsepriteFile
     public AsepriteColorDepth ColorDepth { get; }
 
     public IReadOnlyList<AsepriteFrame> Frames { get; }
+
+    /// <summary>All layers and groups as a flat list, bottom layer first. A group comes before its children.</summary>
+    public IReadOnlyList<AsepriteLayer> Layers { get; }
+
+    public AsepritePalette Palette { get; }
 
     /// <summary>Reads an Aseprite file from disk.</summary>
     /// <exception cref="InvalidDataException">The file is not a valid Aseprite file.</exception>

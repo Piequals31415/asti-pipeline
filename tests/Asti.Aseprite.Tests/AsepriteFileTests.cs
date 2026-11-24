@@ -4,12 +4,10 @@ namespace Asti.Aseprite.Tests;
 
 public class AsepriteFileTests
 {
-    private static string Sample(string name) => Path.Combine(AppContext.BaseDirectory, "samples", name);
-
     [Fact]
     public void ReadsHeaderOfSingleFrameFile()
     {
-        var file = AsepriteFile.FromFile(Sample("rgba_single_frame.aseprite"));
+        var file = Samples.Load("rgba_single_frame.aseprite");
 
         Assert.Equal(8, file.Width);
         Assert.Equal(8, file.Height);
@@ -20,7 +18,7 @@ public class AsepriteFileTests
     [Fact]
     public void ReadsFrameDurations()
     {
-        var file = AsepriteFile.FromFile(Sample("frames_durations.aseprite"));
+        var file = Samples.Load("frames_durations.aseprite");
 
         Assert.Equal(
             [TimeSpan.FromMilliseconds(100), TimeSpan.FromMilliseconds(200), TimeSpan.FromMilliseconds(50)],
@@ -33,7 +31,7 @@ public class AsepriteFileTests
     [InlineData("indexed.aseprite", AsepriteColorDepth.Indexed)]
     public void ReadsColorDepth(string sample, AsepriteColorDepth expected)
     {
-        Assert.Equal(expected, AsepriteFile.FromFile(Sample(sample)).ColorDepth);
+        Assert.Equal(expected, Samples.Load(sample).ColorDepth);
     }
 
     [Fact]
@@ -48,7 +46,7 @@ public class AsepriteFileTests
     [Fact]
     public void RejectsTruncatedFile()
     {
-        var bytes = File.ReadAllBytes(Sample("frames_durations.aseprite"));
+        var bytes = File.ReadAllBytes(Samples.PathOf("frames_durations.aseprite"));
         using var stream = new MemoryStream(bytes[..140]);
 
         Assert.Throws<InvalidDataException>(() => AsepriteFile.FromStream(stream));
