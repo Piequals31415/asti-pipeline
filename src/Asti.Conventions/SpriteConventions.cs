@@ -1,5 +1,6 @@
 using Asti.Aseprite;
 using Asti.Conventions.Model;
+using Asti.Conventions.Rules;
 
 namespace Asti.Conventions;
 
@@ -13,7 +14,7 @@ public static class SpriteConventions
     public static SpriteDefinition Read(AsepriteFile file, string path)
     {
         var errors = new List<string>();
-        var sprite = new SpriteDefinition(file);
+        var sprite = new SpriteDefinition(file, TagRules.Read(file.Tags, errors));
 
         if (errors.Count > 0)
             throw new NamingException(path, errors.AsReadOnly());
