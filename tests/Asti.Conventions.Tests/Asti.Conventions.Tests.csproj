@@ -10,6 +10,11 @@
     <Using Include="Xunit" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="../Asti.Aseprite.Tests/AsepriteBytes.cs" Link="Shared/AsepriteBytes.cs" />
+    <Compile Include="../Asti.Aseprite.Tests/Samples.cs" Link="Shared/Samples.cs" />
+    <None Include="../Asti.Aseprite.Tests/samples/*.aseprite" Link="samples/%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="../../src/Asti.Conventions/Asti.Conventions.csproj" />
   </ItemGroup>
 </Project>

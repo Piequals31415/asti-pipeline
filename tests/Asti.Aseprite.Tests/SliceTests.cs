@@ -37,8 +37,8 @@ public class SliceTests
     [Fact]
     public void ReadsSeveralKeys()
     {
-        var keys = AsepriteBytes.Read(Slice(2, 3, [0, -1, -2, 8, 9, 1, 2, 3, 4, -5, 6], [2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]))
-            .Slices[0].Keys;
+        var keys = AsepriteBytes.Read(AsepriteBytes.Slice("slice", 2, 3,
+            [0, -1, -2, 8, 9, 1, 2, 3, 4, -5, 6], [2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])).Slices[0].Keys;
 
         Assert.Equal(new AsepriteSliceKey(0, new(-1, -2, 8, 9), new(1, 2, 3, 4), new(-5, 6)), keys[0]);
         Assert.Equal(2, keys[1].Frame);
@@ -48,17 +48,8 @@ public class SliceTests
     [Fact]
     public void RejectsNegativeSizeAndMissingKeys()
     {
-        Assert.Throws<InvalidDataException>(() => AsepriteBytes.Read(Slice(1, 0, [0, 0, 0, -1, 1])));
-        Assert.Throws<InvalidDataException>(() => AsepriteBytes.Read(Slice(uint.MaxValue, 0, [0, 0, 0, 1, 1])));
+        Assert.Throws<InvalidDataException>(() => AsepriteBytes.Read(AsepriteBytes.Slice("slice", 1, 0, [0, 0, 0, -1, 1])));
+        Assert.Throws<InvalidDataException>(() => AsepriteBytes.Read(
+            AsepriteBytes.Slice("slice", uint.MaxValue, 0, [0, 0, 0, 1, 1])));
     }
-
-    private static byte[] Slice(uint count, uint flags, params int[][] keys) => AsepriteBytes.Chunk(0x2022, w =>
-    {
-        w.Write(count);
-        w.Write(flags);
-        w.Write(0u);
-        AsepriteBytes.WriteString(w, "slice");
-        foreach (var value in keys.SelectMany(k => k))
-            w.Write(value);
-    });
 }

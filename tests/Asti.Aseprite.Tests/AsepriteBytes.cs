@@ -115,6 +115,17 @@ internal static class AsepriteBytes
         WriteString(w, name);
     }
 
+    /// <summary>Flag 1 = keys have a center, flag 2 = keys have a pivot.</summary>
+    public static byte[] Slice(string name, uint count, uint flags, params int[][] keys) => Chunk(0x2022, w =>
+    {
+        w.Write(count);
+        w.Write(flags);
+        w.Write(0u);
+        WriteString(w, name);
+        foreach (var value in keys.SelectMany(k => k))
+            w.Write(value);
+    });
+
     public static void WriteString(BinaryWriter w, string text)
     {
         var bytes = Encoding.UTF8.GetBytes(text);
