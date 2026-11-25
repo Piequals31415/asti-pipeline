@@ -1,6 +1,5 @@
 using System.Text;
 using Asti.Aseprite.Model;
-using Asti.Aseprite.Reading.Chunks;
 
 namespace Asti.Aseprite.Reading;
 
@@ -47,18 +46,16 @@ internal static class AsepriteFileReader
         int transparentIndex = reader.ReadByte();
         Skip(reader, HeaderSize - 29);
 
-        var layers = new LayerChunkReader(flags);
-        var palette = new PaletteChunkReader();
+        var chunks = new ChunkReaders(flags, colorDepth, transparentIndex);
         var frames = new AsepriteFrame[frameCount];
         for (var i = 0; i < frameCount; i++)
-            frames[i] = ReadFrame(reader, i, layers, palette);
+            frames[i] = ReadFrame(reader, i, chunks);
 
-        return new AsepriteFile(width, height, colorDepth, frames, layers.Layers,
-            new AsepritePalette(palette.Colors, transparentIndex));
+        var palette = chunks.Finish();
+        return new AsepriteFile(width, height, colorDepth, frames, chunks.Layers.Layers, palette);
     }
 
-    private static AsepriteFrame ReadFrame(BinaryReader reader, int index, LayerChunkReader layers,
-        PaletteChunkReader palette)
+    private static AsepriteFrame ReadFrame(BinaryReader reader, int index, ChunkReaders chunks)
     {
         var frameBytes = reader.ReadUInt32(); 
         var magic = reader.ReadUInt16();
@@ -74,16 +71,17 @@ internal static class AsepriteFileReader
         if (chunkCount == 0)
             chunkCount = oldChunkCount;
 
+        var cels = new List<AsepriteCel>();
         long remaining = frameBytes - FrameHeaderSize;
         for (uint i = 0; i < chunkCount; i++)
-            remaining -= ReadChunk(reader, index, i, remaining, layers, palette);
+            remaining -= ReadChunk(reader, index, i, remaining, chunks, cels);
         Skip(reader, remaining);
 
-        return new AsepriteFrame(TimeSpan.FromMilliseconds(durationMs));
+        return new AsepriteFrame(TimeSpan.FromMilliseconds(durationMs), cels.AsReadOnly());
     }
 
     private static long ReadChunk(BinaryReader reader, int frame, uint index, long remaining,
-        LayerChunkReader layers, PaletteChunkReader palette)
+        ChunkReaders chunks, List<AsepriteCel> cels)
     {
         if (remaining < ChunkHeaderSize)
             throw new InvalidDataException($"Frame {frame}, chunk {index}: does not fit into the frame.");
@@ -93,14 +91,7 @@ internal static class AsepriteFileReader
         if (size < ChunkHeaderSize || size > remaining)
             throw new InvalidDataException($"Frame {frame}, chunk {index} (0x{(ushort)type:X4}): bad size {size}.");
 
-        Action<BinaryReader>? read = type switch
-        {
-            ChunkType.Layer => layers.Read,
-            ChunkType.Palette => palette.Read,
-            ChunkType.OldPalette => chunk => palette.ReadOld(chunk, 255),
-            ChunkType.OldPalette64 => chunk => palette.ReadOld(chunk, 63),
-            _ => null,
-        };
+        var read = chunks.Find(type, frame, cels);
         if (read is null)
         {
             Skip(reader, size - ChunkHeaderSize);
