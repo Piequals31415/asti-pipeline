@@ -16,7 +16,8 @@ public static class SpriteConventions
         var errors = new List<string>();
         var sprite = new SpriteDefinition(file,
             TagRules.Read(file.Tags, errors),
-            LayerRules.Read(file.Layers, errors));
+            LayerRules.Read(file.Layers, errors),
+            SliceRules.Read(file.Slices, file.Frames.Count, errors));
 
         if (errors.Count > 0)
             throw new NamingException(path, errors.AsReadOnly());
