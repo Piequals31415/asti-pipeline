@@ -8,4 +8,5 @@ internal enum ChunkType : ushort
     Cel = 0x2005,
     Tags = 0x2018,
     Palette = 0x2019,
+    Slice = 0x2022,
 }

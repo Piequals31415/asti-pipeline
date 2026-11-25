@@ -22,12 +22,15 @@ internal sealed class ChunkReaders
 
     public TagsChunkReader Tags { get; }
 
+    public SliceChunkReader Slices { get; } = new();
+
     /// <summary>Returns how to read this chunk, or <c>null</c> if it should be skipped.</summary>
     public Action<BinaryReader>? Find(ChunkType type, int frame, List<AsepriteCel> frameCels) => type switch
     {
         ChunkType.Layer => Layers.Read,
         ChunkType.Cel => reader => frameCels.Add(_cels.Read(reader, frame)),
         ChunkType.Tags => reader => Tags.Read(reader),
+        ChunkType.Slice => reader => Slices.Read(reader),
         ChunkType.Palette => _palette.Read,
         ChunkType.OldPalette => reader => _palette.ReadOld(reader, 255),
         ChunkType.OldPalette64 => reader => _palette.ReadOld(reader, 63),

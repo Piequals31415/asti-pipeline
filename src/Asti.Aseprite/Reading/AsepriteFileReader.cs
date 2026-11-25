@@ -53,7 +53,7 @@ internal static class AsepriteFileReader
 
         var palette = chunks.Finish();
         return new AsepriteFile(width, height, colorDepth, frames, chunks.Layers.Layers,
-            chunks.Tags.Tags, palette);
+            chunks.Tags.Tags, chunks.Slices.Slices, palette);
     }
 
     private static AsepriteFrame ReadFrame(BinaryReader reader, int index, ChunkReaders chunks)
