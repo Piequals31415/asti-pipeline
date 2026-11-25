@@ -46,4 +46,7 @@ public sealed class AsepriteLayer
 
     /// <summary>Direct children of a group, bottom layer first.</summary>
     public IReadOnlyList<AsepriteLayer> Children { get; }
+
+    /// <summary><c>null</c> if the file stores no user data for this object.</summary>
+    public AsepriteUserData? UserData { get; internal set; }
 }

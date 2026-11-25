@@ -32,4 +32,7 @@ public sealed class AsepriteCel
 
     /// <summary>The pixels, shared between linked cels. <c>null</c> for tilemap cels.</summary>
     public AsepriteImage? Image { get; internal set; }
+
+    /// <summary><c>null</c> if the file stores no user data for this object.</summary>
+    public AsepriteUserData? UserData { get; internal set; }
 }

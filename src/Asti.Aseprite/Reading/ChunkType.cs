@@ -8,5 +8,7 @@ internal enum ChunkType : ushort
     Cel = 0x2005,
     Tags = 0x2018,
     Palette = 0x2019,
+    UserData = 0x2020,
     Slice = 0x2022,
+    Tileset = 0x2023,
 }

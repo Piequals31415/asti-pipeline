@@ -8,7 +8,7 @@ public sealed class AsepriteFile
 {
     internal AsepriteFile(int width, int height, AsepriteColorDepth colorDepth, IReadOnlyList<AsepriteFrame> frames,
         IReadOnlyList<AsepriteLayer> layers, IReadOnlyList<AsepriteTag> tags,
-        IReadOnlyList<AsepriteSlice> slices, AsepritePalette palette)
+        IReadOnlyList<AsepriteSlice> slices, AsepritePalette palette, AsepriteUserData? userData)
     {
         Width = width;
         Height = height;
@@ -18,6 +18,7 @@ public sealed class AsepriteFile
         Tags = tags;
         Slices = slices;
         Palette = palette;
+        UserData = userData;
     }
 
     /// <summary>Canvas width in pixels.</summary>
@@ -38,6 +39,9 @@ public sealed class AsepriteFile
     public IReadOnlyList<AsepriteSlice> Slices { get; }
 
     public AsepritePalette Palette { get; }
+
+    /// <summary>User data of the sprite itself, or <c>null</c>.</summary>
+    public AsepriteUserData? UserData { get; }
 
     /// <summary>Reads an Aseprite file from disk.</summary>
     /// <exception cref="InvalidDataException">The file is not a valid Aseprite file.</exception>

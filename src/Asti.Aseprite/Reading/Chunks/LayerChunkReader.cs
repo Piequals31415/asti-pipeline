@@ -12,7 +12,7 @@ internal sealed class LayerChunkReader(uint headerFlags)
 
     public IReadOnlyList<AsepriteLayer> Layers => _layers.AsReadOnly();
 
-    public void Read(BinaryReader reader)
+    public AsepriteLayer Read(BinaryReader reader)
     {
         var flags = (AsepriteLayerFlags)reader.ReadUInt16();
         var kind = (AsepriteLayerKind)reader.ReadUInt16();
@@ -46,6 +46,7 @@ internal sealed class LayerChunkReader(uint headerFlags)
         var layer = new AsepriteLayer(_layers.Count, name, kind, flags, blendMode, opacity, parent);
         _layers.Add(layer);
         _ancestors.Add(layer);
+        return layer;
     }
 
     private AsepriteLayer? FindParent(string name, int level)

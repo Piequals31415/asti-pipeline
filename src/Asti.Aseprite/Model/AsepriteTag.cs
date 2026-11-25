@@ -3,7 +3,7 @@ namespace Asti.Aseprite.Model;
 /// <summary>A named range of frames.</summary>
 public sealed class AsepriteTag
 {
-    private readonly AsepriteColor _color;
+    private readonly AsepriteColor _oldColor;
 
     internal AsepriteTag(string name, int from, int to, AsepriteTagDirection direction, int repeat, AsepriteColor color)
     {
@@ -12,7 +12,7 @@ public sealed class AsepriteTag
         To = to;
         Direction = direction;
         Repeat = repeat;
-        _color = color;
+        _oldColor = color;
     }
 
     public string Name { get; }
@@ -29,5 +29,8 @@ public sealed class AsepriteTag
     public int Repeat { get; }
 
     /// <summary>Color of the tag in the timeline.</summary>
-    public AsepriteColor Color => _color;
+    public AsepriteColor Color => UserData?.Color ?? _oldColor;
+
+    /// <summary><c>null</c> if the file stores no user data for this object.</summary>
+    public AsepriteUserData? UserData { get; internal set; }
 }
