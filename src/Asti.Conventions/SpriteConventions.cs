@@ -14,7 +14,9 @@ public static class SpriteConventions
     public static SpriteDefinition Read(AsepriteFile file, string path)
     {
         var errors = new List<string>();
-        var sprite = new SpriteDefinition(file, TagRules.Read(file.Tags, errors));
+        var sprite = new SpriteDefinition(file,
+            TagRules.Read(file.Tags, errors),
+            LayerRules.Read(file.Layers, errors));
 
         if (errors.Count > 0)
             throw new NamingException(path, errors.AsReadOnly());
