@@ -10,6 +10,9 @@
     <Using Include="Xunit" />
   </ItemGroup>
   <ItemGroup>
+    <None Update="samples/**/*.aseprite" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="../../src/Asti.Aseprite/Asti.Aseprite.csproj" />
   </ItemGroup>
 </Project>
