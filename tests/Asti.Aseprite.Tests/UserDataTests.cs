@@ -10,14 +10,6 @@ public class UserDataTests
         AsepriteBytes.WriteString(w, text);
     });
 
-    private static byte[] Slice() => AsepriteBytes.Chunk(0x2022, w =>
-    {
-        w.Write(0u);
-        w.Write(0u);
-        w.Write(0u);
-        AsepriteBytes.WriteString(w, "slice");
-    });
-
     private static byte[] OldPalette() => AsepriteBytes.Chunk(0x0004, w => w.Write((ushort)0));
 
     [Fact]
@@ -76,7 +68,7 @@ public class UserDataTests
     [Fact]
     public void ReadsSliceUserData()
     {
-        Assert.Equal("note", AsepriteBytes.Read(Slice(), Text("note")).Slices[0].UserData!.Text);
+        Assert.Equal("note", AsepriteBytes.Read(AsepriteBytes.Slice("slice", 0, 0), Text("note")).Slices[0].UserData!.Text);
     }
 
     [Fact]
