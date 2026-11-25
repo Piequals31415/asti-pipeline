@@ -46,13 +46,14 @@ internal static class AsepriteFileReader
         int transparentIndex = reader.ReadByte();
         Skip(reader, HeaderSize - 29);
 
-        var chunks = new ChunkReaders(flags, colorDepth, transparentIndex);
+        var chunks = new ChunkReaders(flags, colorDepth, transparentIndex, frameCount);
         var frames = new AsepriteFrame[frameCount];
         for (var i = 0; i < frameCount; i++)
             frames[i] = ReadFrame(reader, i, chunks);
 
         var palette = chunks.Finish();
-        return new AsepriteFile(width, height, colorDepth, frames, chunks.Layers.Layers, palette);
+        return new AsepriteFile(width, height, colorDepth, frames, chunks.Layers.Layers,
+            chunks.Tags.Tags, palette);
     }
 
     private static AsepriteFrame ReadFrame(BinaryReader reader, int index, ChunkReaders chunks)

@@ -7,13 +7,14 @@ namespace Asti.Aseprite;
 public sealed class AsepriteFile
 {
     internal AsepriteFile(int width, int height, AsepriteColorDepth colorDepth, IReadOnlyList<AsepriteFrame> frames,
-        IReadOnlyList<AsepriteLayer> layers, AsepritePalette palette)
+        IReadOnlyList<AsepriteLayer> layers, IReadOnlyList<AsepriteTag> tags, AsepritePalette palette)
     {
         Width = width;
         Height = height;
         ColorDepth = colorDepth;
         Frames = frames;
         Layers = layers;
+        Tags = tags;
         Palette = palette;
     }
 
@@ -29,6 +30,8 @@ public sealed class AsepriteFile
 
     /// <summary>All layers and groups as a flat list, bottom layer first. A group comes before its children.</summary>
     public IReadOnlyList<AsepriteLayer> Layers { get; }
+
+    public IReadOnlyList<AsepriteTag> Tags { get; }
 
     public AsepritePalette Palette { get; }
 

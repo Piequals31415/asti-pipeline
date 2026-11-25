@@ -96,6 +96,25 @@ internal static class AsepriteBytes
     public static byte[] LinkedCel(int frame, int x = 0, byte opacity = 255) =>
         Cel(1, w => w.Write((ushort)frame), x: x, opacity: opacity);
 
+    public static byte[] Tags(params string[] names) => Chunk(0x2018, w =>
+    {
+        w.Write((ushort)names.Length);
+        w.Write(new byte[8]);
+        foreach (var name in names)
+            WriteTag(w, name);
+    });
+
+    public static void WriteTag(BinaryWriter w, string name, int from = 0, int to = 0, int direction = 0)
+    {
+        w.Write((ushort)from);
+        w.Write((ushort)to);
+        w.Write((byte)direction);
+        w.Write((ushort)0);
+        w.Write(new byte[6]);
+        w.Write(new byte[] { 1, 2, 3, 0 });
+        WriteString(w, name);
+    }
+
     public static void WriteString(BinaryWriter w, string text)
     {
         var bytes = Encoding.UTF8.GetBytes(text);
